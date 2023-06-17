@@ -1,0 +1,34 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+
+int main() {
+    SetConsoleOutputCP(1251);
+    std::ifstream inputFile("input.txt");
+    std::ofstream outputFile("output.txt");
+
+    if (!inputFile) {
+        std::cerr << "Помилка відкриття вхідного файлу!" << std::endl;
+        return 1;
+    }
+
+    if (!outputFile) {
+        std::cerr << "Помилка відкриття вихідного файлу!" << std::endl;
+        return 1;
+    }
+
+    std::string word;
+    while (inputFile >> word) {
+        if (word.length() >= 7) {
+            outputFile << word << " ";
+        }
+    }
+
+    std::cout << "Успішно створено новий файл зі словами, які мають не менше 7 літер." << std::endl;
+
+    inputFile.close();
+    outputFile.close();
+
+    return 0;
+}
