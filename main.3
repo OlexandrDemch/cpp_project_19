@@ -1,0 +1,35 @@
+#include <iostream>
+#include <windows.h>
+#include <fstream>
+#include <string>
+#include <stack>
+
+int main() {
+    SetConsoleOutputCP(1251);
+    std::ifstream input("input.txt"); 
+    std::ofstream output("output.txt"); 
+
+    if (!input) {
+        std::cout << "Помилка відкриття вхідного файлу." << std::endl;
+        return 1;
+    }
+
+    std::stack<std::string> linesStack;  
+
+    std::string line;
+    while (std::getline(input, line)) {
+        linesStack.push(line);  
+    }
+
+    while (!linesStack.empty()) {
+        output << linesStack.top() << std::endl;  
+        linesStack.pop();  
+    }
+
+    std::cout << "Рядки були успішно переписані у зворотньому порядку." << std::endl;
+
+    input.close();
+    output.close();
+
+    return 0;
+}
