@@ -1,0 +1,74 @@
+#include <iostream>
+#include <fstream>
+#include <windows.h>
+#include <string>
+
+int main() {
+    SetConsoleOutputCP(1251);
+    std::ifstream inputFile("input.txt"); 
+    std::ofstream outputFile("output.txt"); 
+
+    if (!inputFile) {
+        std::cout << "Помилка відкриття вхідного файлу." << std::endl;
+        return 1;
+    }
+
+    std::string* lines = nullptr; 
+    int lineCount = 0; 
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::string* temp = new std::string[lineCount + 1]; 
+        for (int i = 0; i < lineCount; i++) {
+            temp[i] = lines[i]; 
+        }
+        temp[lineCount] = line; 
+        delete[] lines; 
+        lines = temp; 
+        lineCount++; 
+    }
+
+    bool added = false; 
+
+    for (int i = lineCount - 1; i >= 0; i--) {
+        if (lines[i].find(' ') == std::string::npos) { 
+            std::string* temp = new std::string[lineCount + 1];
+            for (int j = 0; j <= i; j++) {
+                temp[j] = lines[j]; 
+            }
+            temp[i + 1] = "~~~~~~~~~~~~"; 
+            for (int j = i + 1; j < lineCount; j++) {
+                temp[j + 1] = lines[j]; 
+            }
+            delete[] lines; 
+            lines = temp; 
+            lineCount++;
+            added = true;
+            break;
+        }
+    }
+
+    if (!added) {
+        std::string* temp = new std::string[lineCount + 1];
+        for (int i = 0; i < lineCount; i++) {
+            temp[i] = lines[i]; 
+        }
+        temp[lineCount] = "~~~~~~~~~~~~"; 
+        delete[] lines; 
+        lines = temp; 
+        lineCount++; 
+    }
+
+    for (int i = 0; i < lineCount; i++) {
+        outputFile << lines[i] << std::endl;
+    }
+
+    std::cout << "Рядок успішно доданий до файлу." << std::endl;
+
+    delete[] lines; 
+
+    inputFile.close();
+    outputFile.close();
+
+    return 0;
+}
