@@ -1,0 +1,32 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+
+int main() {
+    SetConsoleOutputCP(1251);
+    std::ifstream inputFile("input.txt"); 
+    std::ofstream outputFile("output.txt"); 
+
+    if (!inputFile) {
+        std::cout << "Не вдалося відкрити вхідний файл." << std::endl;
+        return 1;
+    }
+
+    if (!outputFile) {
+        std::cout << "Не вдалося відкрити вихідний файл." << std::endl;
+        return 1;
+    }
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        outputFile << line << std::endl; 
+    }
+
+    inputFile.close(); 
+    outputFile.close(); 
+
+    std::cout << "Рядки успішно переписані у вихідний файл." << std::endl;
+
+    return 0;
+}
